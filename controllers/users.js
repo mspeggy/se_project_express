@@ -7,7 +7,7 @@ const {
   INTERNAL_SERVER_ERROR_STATUS_CODE,
 } = require("../utils/constants");
 
-//GET/users
+// GET/users
 const getUsers = (req, res) => {
   User.find({})
     .then((users) => res.status(OK_STATUS_CODE).send(users))
@@ -46,7 +46,7 @@ const getUser = (req, res) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
         return res.status(NOT_FOUND_STATUS_CODE).send({ message: `Could not find user with id ${userId}` });
-      } else if (err.name === "CastError") {
+      } if (err.name === "CastError") {
         return res
           .status(BAD_REQUEST_STATUS_CODE)
           .send({ message: err.message });

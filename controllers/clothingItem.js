@@ -2,7 +2,6 @@ const ClothingItem = require("../models/clothingitem");
 
 const {
   OK_STATUS_CODE,
-  CREATED_STATUS_CODE,
   BAD_REQUEST_STATUS_CODE,
   NOT_FOUND_STATUS_CODE,
   INTERNAL_SERVER_ERROR_STATUS_CODE,
@@ -21,14 +20,14 @@ const createItem = (req, res) => {
     })
     .catch((err) => {
       // if a validation error has occurred, send back a 400 error
-      //console.log({"error name": err.name})
+      // console.log({"error name": err.name})
       if (err.name === "ValidationError") {
         return res.status(BAD_REQUEST_STATUS_CODE).send({
           message:
             "ValidationError: name, weather, or imageUrl do not meet requirements",
         });
       }
-      res
+     return res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
         .send({ message: "Error from createItem", err });
     });
@@ -37,11 +36,11 @@ const createItem = (req, res) => {
 const getItems = (req, res) => {
   ClothingItem.find({})
     .then((items) => res.status(OK_STATUS_CODE).send(items))
-    .catch((e) => {
+    .catch(() => 
       res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-        .send({ message: "Error from getItems", err });
-    });
+        .send({ message: "Error from getItems" })
+    );
 };
 
 const updateItem = (req, res) => {
@@ -51,11 +50,11 @@ const updateItem = (req, res) => {
   ClothingItem.findByIdAndUpdate(itemId, { $set: { imageUrl } })
     .orFail()
     .then((item) => res.status(OK_STATUS_CODE).send({ data: item }))
-    .catch((e) => {
+    .catch(() => 
       res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-        .send({ message: "Error from createItem", err });
-    });
+        .send({ message: "Error from createItem"})
+    );
 };
 
 const deleteItem = (req, res) => {
@@ -64,7 +63,7 @@ const deleteItem = (req, res) => {
   console.log(itemId);
   ClothingItem.findByIdAndDelete(itemId)
     .orFail()
-    .then((item) => res.status(OK_STATUS_CODE).send({}))
+    .then(() => res.status(OK_STATUS_CODE).send({}))
     .catch((e) => {
       if (e.name === "CastError") {
         return res
@@ -76,7 +75,7 @@ const deleteItem = (req, res) => {
           .status(NOT_FOUND_STATUS_CODE)
           .send({ message: "Error from deleteItem" });
       }
-      res
+     return res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
         .send({ message: "Error from deleteItem" });
     });
