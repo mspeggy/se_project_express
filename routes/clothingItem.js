@@ -10,6 +10,8 @@ const {
 
 // CRUD
 
+// start with /items
+
 // GET all items
 router.get("/", getItems);
 
