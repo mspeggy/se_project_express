@@ -7,13 +7,15 @@ const {
   INTERNAL_SERVER_ERROR_STATUS_CODE,
 } = require("../utils/constants");
 
+// POST /items
 const createItem = (req, res) => {
   console.log(req);
   console.log(req.body);
 
   const { name, weather, imageUrl } = req.body;
+  const owner = req.user._id;
 
-  ClothingItem.create({ name, weather, imageUrl })
+  ClothingItem.create({ name, weather, imageUrl, owner })
     .then((item) => {
       console.log(item);
       res.send({ data: item });
@@ -27,36 +29,24 @@ const createItem = (req, res) => {
             "ValidationError: name, weather, or imageUrl do not meet requirements",
         });
       }
-     return res
+      return res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-        .send({ message: "Error from createItem", err });
+        .send({ message: "An error occurred on the server"});
     });
 };
 
+// GET /items
 const getItems = (req, res) => {
   ClothingItem.find({})
     .then((items) => res.status(OK_STATUS_CODE).send(items))
-    .catch(() => 
+    .catch(() =>
       res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-        .send({ message: "Error from getItems" })
+        .send({ message: "An error occurred on the server" })
     );
 };
 
-const updateItem = (req, res) => {
-  const { itemId } = req.params;
-  const { imageUrl } = req.body;
-
-  ClothingItem.findByIdAndUpdate(itemId, { $set: { imageUrl } })
-    .orFail()
-    .then((item) => res.status(OK_STATUS_CODE).send({ data: item }))
-    .catch(() => 
-      res
-        .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-        .send({ message: "Error from createItem"})
-    );
-};
-
+// DELETE /items/:itemId
 const deleteItem = (req, res) => {
   const { itemId } = req.params;
 
@@ -75,15 +65,14 @@ const deleteItem = (req, res) => {
           .status(NOT_FOUND_STATUS_CODE)
           .send({ message: "Error from deleteItem" });
       }
-     return res
+      return res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-        .send({ message: "Error from deleteItem" });
+        .send({ message: "An error occurred on the server" });
     });
 };
 
 // PUT /items/:itemId/likes
 const likeItem = (req, res) => {
-    
   ClothingItem.findByIdAndUpdate(
     req.params.itemId,
     { $addToSet: { likes: req.user._id } }, // adds only if not already liked
@@ -103,9 +92,11 @@ const likeItem = (req, res) => {
           .status(BAD_REQUEST_STATUS_CODE)
           .send({ message: "Invalid item ID" });
       }
+
+      // 500 branch: generic message only
       return res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-        .send({ message: "Server error", error: err.message });
+        .send({ message: "An error occurred on the server" });
     });
 };
 
@@ -132,14 +123,13 @@ const dislikeItem = (req, res) => {
       }
       return res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-        .send({ message: "Server error", error: err.message });
+        .send({ message: "An error occurred on the server" });
     });
 };
 
 module.exports = {
   createItem,
   getItems,
-  updateItem,
   deleteItem,
   likeItem,
   dislikeItem,

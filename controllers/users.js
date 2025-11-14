@@ -13,12 +13,14 @@ const getUsers = (req, res) => {
     .then((users) => res.status(OK_STATUS_CODE).send(users))
     .catch((err) => {
       console.error(err);
+      // 500 branch: return generic message only
       return res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-        .send({ message: err.message });
+        .send({ message: "An error occurred on the server" });
     });
 };
 
+// POST /users
 const createUser = (req, res) => {
   const { name, avatar } = req.body;
 
@@ -31,12 +33,14 @@ const createUser = (req, res) => {
           .status(BAD_REQUEST_STATUS_CODE)
           .send({ message: err.message });
       }
+      // 500 branch: return generic message only
       return res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-        .send({ message: err.message });
+        .send({ message: "An error occurred on the server" });
     });
 };
 
+// GET /users/:userId
 const getUser = (req, res) => {
   const { userId } = req.params;
   User.findById(userId)
@@ -45,15 +49,20 @@ const getUser = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND_STATUS_CODE).send({ message: `Could not find user with id ${userId}` });
-      } if (err.name === "CastError") {
+        return res
+          .status(NOT_FOUND_STATUS_CODE)
+          .send({ message: `Could not find user with id ${userId}` });
+      }
+      if (err.name === "CastError") {
         return res
           .status(BAD_REQUEST_STATUS_CODE)
           .send({ message: err.message });
       }
+      
+      // 500 branch: return generic message only
       return res
         .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
-        .send({ message: err.message });
+        .send({ message: "An error occurred on the server" });
     });
 };
 

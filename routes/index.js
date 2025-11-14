@@ -10,7 +10,7 @@ router.use("/items", clothingItemRouter);
 
 router.use((req, res) => {
   res
-    .status(INTERNAL_SERVER_ERROR_STATUS_CODE)
+    .status(NOT_FOUND_STATUS_CODE)
     .send({ message: "Router not found" });
 });
 
