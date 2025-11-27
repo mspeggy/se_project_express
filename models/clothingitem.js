@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
-const clothingitemSchema = new mongoose.Schema({
+const clothingItemSchema = new mongoose.Schema({
   name: {
     // name had to be a string
     type: String,
@@ -45,4 +45,4 @@ const clothingitemSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("clothingItem", clothingitemSchema);
+module.exports = mongoose.model("clothingItem", clothingItemSchema);
