@@ -9,7 +9,7 @@ The back-end project is focused on creating a server for the WTWR application. Y
 Before committing your code, make sure you edit the file `sprint.txt` in the root folder. The file `sprint.txt` should contain the number of the sprint you're currently working on. For ex. 12
 
 
-Tech Stack & Approach
+Tech Stack & Approach 
 
 This project uses a modern Node.js backend stack to ensure clean, reliable, and maintainable code.
 
@@ -25,3 +25,13 @@ Development Tools & Techniques
 - Prettier – Automatic code formatting
 - REST API Architecture – Modular controllers, routers, and middleware
 - User Authorization – Planned/implemented JWT or similar strategy
+
+
+
+## Project Pitch Express Video
+ 
+ Check out [this video](https://www.loom.com/share/55a6e823e3b744d4857af8afd3246d77), where I describe my 
+ project and some challenges I faced while building it.
+
+
+ 
