@@ -18,14 +18,6 @@ mongoose
 // Middleware
 app.use(express.json());
 app.use(cors())
-/* ------------------------------
-   Public Routes (NO AUTH)
---------------------------------*/
-app.post("/signin", login);
-app.post("/signup", createUser);
-
-// GET /items must remain public — handled inside mainRouter
-// but we apply auth *after* mounting items route in router
 
 /* ------------------------------
    Protected Routes
