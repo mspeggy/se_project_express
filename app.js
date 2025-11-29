@@ -19,6 +19,14 @@ mongoose
 app.use(express.json());
 app.use(cors())
 
+/* ----------------------------------
+   Public Routes (NO auth required)
+----------------------------------- */
+
+app.post("/signin", login);
+app.post("/signup", createUser);
+
+
 /* ------------------------------
    Protected Routes
 --------------------------------*/
