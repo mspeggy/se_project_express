@@ -34,4 +34,14 @@ Development Tools & Techniques
  project and some challenges I faced while building it.
 
 
+Your deployed project’s domain name.   https://aside.ignorelist.com
+
+A link to your frontend GitHub repo.   git@github.com:mspeggy/se_project_react.git
+
+A link to your project pitch video.  https://www.loom.com/share/5a3d59887bf14314bc2ca664f9785664
+
+
+## Project Pitch Video
  
+ Check out [this video](https://www.loom.com/share/5a3d59887bf14314bc2ca664f9785664), where I describe my 
+ project and some challenges I faced while building it.
