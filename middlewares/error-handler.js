@@ -7,8 +7,4 @@ module.exports = (err, req, res, next) => {
   });
 };
 
-const errorHandler = require('./middlewares/error-handler');
 
-// ... all other app.use() statements and routes
-
-app.use(errorHandler);

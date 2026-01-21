@@ -6,9 +6,13 @@ const { NOT_FOUND_STATUS_CODE } = require("../utils/constants");
 
 const router = express.Router();
 
-// Public auth routes
-router.post("/signup", createUser);
-router.post("/signin", login);
+// ---------- Crash Test Route ----------
+router.get("/crash-test", () => {
+  setTimeout(() => {
+    throw new Error("Server will crash now");
+  }, 0);
+});
+
 
 // Protected/other routes
 router.use("/users", userRouter);         

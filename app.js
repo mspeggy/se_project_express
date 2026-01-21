@@ -3,9 +3,11 @@ const mongoose = require("mongoose");
 const cors = require("cors");  
 require('dotenv').config();
 
+const errorHandler = require("./middlewares/error-handler")
+const {requestLogger,errorLogger} = require("./middlewares/logger")
 const mainRouter = require("./routes/index");
 const auth = require("./middlewares/auth");
-
+const {errors} = require("celebrate")
 const { login, createUser } = require("./controllers/users");
 
 const app = express();
@@ -21,13 +23,7 @@ mongoose
 app.use(express.json());
 app.use(cors())
 
-// ---------- Crash Test Route ----------
-app.get("/crash-test", () => {
-  setTimeout(() => {
-    throw new Error("Server will crash now");
-  }, 0);
-});
-
+app.use(requestLogger)
 /* ----------------------------------
    Public Routes (NO auth required)
 ----------------------------------- */
@@ -48,3 +44,6 @@ app.use("/", mainRouter);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+app.use(errorLogger)
+app.use(errors())
+app.use(errorHandler);
