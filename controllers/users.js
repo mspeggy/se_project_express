@@ -44,7 +44,7 @@ const createUser = async (req, res, next) => {
     const userObj = user.toObject();
     delete userObj.password;
 
-    res.status(CREATED_STATUS_CODE).send(userObj); // success response
+   return res.status(CREATED_STATUS_CODE).send(userObj); // success response
   } catch (err) {
     // Duplicate email
     if (err.code === 11000) {
@@ -77,7 +77,7 @@ const login = async (req, res, next) => {
     // Generate JWT token
     const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: "7d" });
 
-    res.status(OK_STATUS_CODE).send({ token });
+    return res.status(OK_STATUS_CODE).send({ token });
   } catch (err) {
     return next(new UnauthorizedError("Incorrect email or password"));
   }
@@ -92,7 +92,7 @@ const getCurrentUser = async (req, res, next) => {
 
     const user = await User.findById(userId).orFail();
 
-    res.status(OK_STATUS_CODE).send(user);
+    return res.status(OK_STATUS_CODE).send(user);
   } catch (err) {
     if (err.name === "DocumentNotFoundError") {
       return next(new NotFoundError("User not found"));
@@ -115,7 +115,7 @@ const updateUserProfile = async (req, res, next) => {
       { new: true, runValidators: true }
     ).orFail();
 
-    res.status(OK_STATUS_CODE).send(updatedUser);
+    return res.status(OK_STATUS_CODE).send(updatedUser);
   } catch (err) {
     if (err.name === "ValidationError") {
       return next(new BadRequestError("Invalid user data"));

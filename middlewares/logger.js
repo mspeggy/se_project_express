@@ -2,9 +2,9 @@ const winston = require('winston');
 const path = require('path');
 
 // Define a common format for logs
-const logFormat = winston.format.printf(({ level, message, timestamp, stack }) => {
-  return `${timestamp} [${level.toUpperCase()}]: ${stack || message}`;
-});
+const logFormat = winston.format.printf(({ level, message, timestamp, stack }) => 
+   `${timestamp} [${level.toUpperCase()}]: ${stack || message}`
+);
 
 // Create logger instance
 const logger = winston.createLogger({

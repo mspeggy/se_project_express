@@ -1,10 +1,10 @@
-module.exports = (err, req, res, next) => {
+module.exports = (err, req, res, _next) => {
   console.error(err);
 
-  res.status(err.statusCode || 500).json({
+  const { statusCode = 500, message } = err;
+
+  res.status(statusCode).json({
     success: false,
-    message: err.message || "Internal Server Error",
+    message: statusCode === 500 ? "An error has occurred on the server" : message,
   });
 };
-
-

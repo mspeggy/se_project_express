@@ -35,12 +35,12 @@ const createItem = async (req, res, next) => {
     }
 
     const item = await ClothingItem.create({ name, imageUrl, weather, owner });
-    res.status(CREATED_STATUS_CODE).send(item);
+   return res.status(CREATED_STATUS_CODE).send(item);
   } catch (err) {
     if (err.name === "ValidationError") {
       return next(new BadRequestError(err.message));
     }
-    next(err);
+    return next(err);
   }
 };
 
@@ -51,7 +51,7 @@ const getItem = async (req, res, next) => {
   try {
     const { itemId } = req.params;
     const item = await ClothingItem.findById(itemId).orFail();
-    res.status(OK_STATUS_CODE).send(item);
+    return res.status(OK_STATUS_CODE).send(item);
   } catch (err) {
     if (err.name === "DocumentNotFoundError") {
       return next(new NotFoundError(`Could not find item with id ${req.params.itemId}`));
@@ -59,7 +59,7 @@ const getItem = async (req, res, next) => {
     if (err.name === "CastError") {
       return next(new BadRequestError("Invalid item ID"));
     }
-    next(err);
+    return next(err);
   }
 };
 
@@ -74,7 +74,7 @@ const likeItem = async (req, res, next) => {
       { new: true }
     ).orFail();
 
-    res.status(OK_STATUS_CODE).send({ data: item });
+    return res.status(OK_STATUS_CODE).send({ data: item });
   } catch (err) {
     if (err.name === "DocumentNotFoundError") {
       return next(new NotFoundError("Item not found"));
@@ -82,7 +82,7 @@ const likeItem = async (req, res, next) => {
     if (err.name === "CastError") {
       return next(new BadRequestError("Invalid item ID"));
     }
-    next(err);
+    return next(err);
   }
 };
 
@@ -97,7 +97,7 @@ const dislikeItem = async (req, res, next) => {
       { new: true }
     ).orFail();
 
-    res.status(OK_STATUS_CODE).send({ data: item });
+    return res.status(OK_STATUS_CODE).send({ data: item });
   } catch (err) {
     if (err.name === "DocumentNotFoundError") {
       return next(new NotFoundError("Item not found"));
@@ -105,7 +105,7 @@ const dislikeItem = async (req, res, next) => {
     if (err.name === "CastError") {
       return next(new BadRequestError("Invalid item ID"));
     }
-    next(err);
+    return next(err);
   }
 };
 
@@ -124,7 +124,7 @@ const deleteItem = async (req, res, next) => {
     }
 
     await ClothingItem.findByIdAndDelete(itemId);
-    res.status(OK_STATUS_CODE).send({ message: "Item deleted successfully" });
+    return res.status(OK_STATUS_CODE).send({ message: "Item deleted successfully" });
   } catch (err) {
     if (err.name === "DocumentNotFoundError") {
       return next(new NotFoundError("Item not found"));
@@ -132,7 +132,7 @@ const deleteItem = async (req, res, next) => {
     if (err.name === "CastError") {
       return next(new BadRequestError("Invalid item ID format"));
     }
-    next(err);
+    return next(err);
   }
 };
 
